@@ -19,6 +19,9 @@ function Filter() {
   const [colunsFilter, setColunsFilter] = useState('population');
   const [operatorFilter, setOperatorFilter] = useState('maior que');
   const [numberFilter, setNumberFilter] = useState(0);
+  const [optionsList, setOptionsList] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
 
   const handleFilter = () => {
     let planetsFiltered;
@@ -32,6 +35,7 @@ function Filter() {
       planetsFiltered = planets
         .filter((element) => Number(element[colunsFilter]) === Number(numberFilter));
     }
+    setOptionsList(optionsList.filter((element) => element !== colunsFilter));
     setPlanets(planetsFiltered);
   };
 
@@ -51,11 +55,9 @@ function Filter() {
         data-testid="column-filter"
         onChange={ ({ target }) => { setColunsFilter(target.value); } }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {optionsList.map((element, index) => (
+          <option key={ index } value={ element }>{element}</option>
+        ))}
       </select>
 
       <select
