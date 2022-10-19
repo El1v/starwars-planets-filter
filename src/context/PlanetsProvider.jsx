@@ -4,11 +4,16 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [nameFilter, setNameFilter] = useState('');
+
+  const handleFilterByName = ({ target }) => setNameFilter(target.value);
 
   const value = useMemo(() => ({
     planets,
     setPlanets,
-  }), [planets]);
+    nameFilter,
+    handleFilterByName,
+  }), [planets, nameFilter]);
 
   return (
     <PlanetsContext.Provider value={ value }>

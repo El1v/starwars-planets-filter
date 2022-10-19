@@ -3,8 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 import getPlanetList from '../services/PlanetListApi';
 
 function Table() {
-  const { planets, setPlanets } = useContext(PlanetsContext);
-  console.log(planets);
+  const { planets, setPlanets, nameFilter } = useContext(PlanetsContext);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -39,22 +38,24 @@ function Table() {
         </thead>
 
         <tbody>
-          {planets.map((element, index) => (
-            <tr key={ index }>
-              <td>{element.name}</td>
-              <td>{element.rotation_period}</td>
-              <td>{element.orbital_period}</td>
-              <td>{element.diameter}</td>
-              <td>{element.climate}</td>
-              <td>{element.gravity}</td>
-              <td>{element.terrain}</td>
-              <td>{element.surface_water}</td>
-              <td>{element.population}</td>
-              <td>{element.films}</td>
-              <td>{element.url}</td>
-              <td>{element.edited}</td>
-            </tr>
-          ))}
+          {planets
+            .filter(({ name }) => name.toLowerCase().includes(nameFilter.toLowerCase()))
+            .map((element, index) => (
+              <tr key={ index }>
+                <td>{element.name}</td>
+                <td>{element.rotation_period}</td>
+                <td>{element.orbital_period}</td>
+                <td>{element.diameter}</td>
+                <td>{element.climate}</td>
+                <td>{element.gravity}</td>
+                <td>{element.terrain}</td>
+                <td>{element.surface_water}</td>
+                <td>{element.population}</td>
+                <td>{element.films}</td>
+                <td>{element.url}</td>
+                <td>{element.edited}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
