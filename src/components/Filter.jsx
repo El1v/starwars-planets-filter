@@ -1,18 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Filter() {
   const {
+    planets,
+    setPlanets,
     nameFilter,
     handleFilterByName,
-    colunsFilter,
-    handleFilterByColuns,
-    operatorFilter,
-    handleFilterByOperator,
-    numberFilter,
-    handleFilterByNumber,
-    handleFilter,
+    // colunsFilter,
+    // handleFilterByColuns,
+    // operatorFilter,
+    // handleFilterByOperator,
+    // numberFilter,
+    // handleFilterByNumber,
+    // handleFilter,
   } = useContext(PlanetsContext);
+
+  const [colunsFilter, setColunsFilter] = useState('population');
+  const [operatorFilter, setOperatorFilter] = useState('maior que');
+  const [numberFilter, setNumberFilter] = useState(0);
+
+  const handleFilter = () => {
+    let planetsFiltered;
+    if (operatorFilter === 'maior que') {
+      planetsFiltered = planets
+        .filter((element) => Number(element[colunsFilter]) > Number(numberFilter));
+    } else if (operatorFilter === 'menor que') {
+      planetsFiltered = planets
+        .filter((element) => Number(element[colunsFilter]) < Number(numberFilter));
+    } else {
+      planetsFiltered = planets
+        .filter((element) => Number(element[colunsFilter]) === Number(numberFilter));
+    }
+    setPlanets(planetsFiltered);
+  };
 
   return (
     <div>
@@ -28,7 +49,7 @@ function Filter() {
       <select
         value={ colunsFilter }
         data-testid="column-filter"
-        onChange={ handleFilterByColuns }
+        onChange={ ({ target }) => { setColunsFilter(target.value); } }
       >
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
@@ -40,7 +61,7 @@ function Filter() {
       <select
         value={ operatorFilter }
         data-testid="comparison-filter"
-        onChange={ handleFilterByOperator }
+        onChange={ ({ target }) => { setOperatorFilter(target.value); } }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -53,7 +74,7 @@ function Filter() {
         name="numberFilter"
         value={ numberFilter }
         placeholder="Digite um nome"
-        onChange={ handleFilterByNumber }
+        onChange={ ({ target }) => { setNumberFilter(target.value); } }
       />
 
       <button

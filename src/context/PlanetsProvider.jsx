@@ -14,20 +14,20 @@ function PlanetsProvider({ children }) {
   const handleFilterByOperator = ({ target }) => setOperadorFilter(target.value);
   const handleFilterByNumber = ({ target }) => setNumberFilter(target.value);
 
-  const handleFilter = () => {
-    let planetsFiltered;
-    if (operatorFilter === 'maior que') {
-      planetsFiltered = planets
-        .filter((element) => Number(element[colunsFilter]) > Number(numberFilter));
-    } else if (operatorFilter === 'menor que') {
-      planetsFiltered = planets
-        .filter((element) => Number(element[colunsFilter]) < Number(numberFilter));
-    } else {
-      planetsFiltered = planets
-        .filter((element) => Number(element[colunsFilter]) === Number(numberFilter));
-    }
-    setPlanets(planetsFiltered);
-  };
+  // const handleFilter = () => {
+  //   let planetsFiltered;
+  //   if (operatorFilter === 'maior que') {
+  //     planetsFiltered = planets
+  //       .filter((element) => Number(element[colunsFilter]) > Number(numberFilter));
+  //   } else if (operatorFilter === 'menor que') {
+  //     planetsFiltered = planets
+  //       .filter((element) => Number(element[colunsFilter]) < Number(numberFilter));
+  //   } else {
+  //     planetsFiltered = planets
+  //       .filter((element) => Number(element[colunsFilter]) === Number(numberFilter));
+  //   }
+  //   setPlanets(planetsFiltered);
+  // };
 
   const value = useMemo(() => ({
     planets,
@@ -40,7 +40,6 @@ function PlanetsProvider({ children }) {
     handleFilterByColuns,
     handleFilterByOperator,
     handleFilterByNumber,
-    handleFilter,
   }), [planets, nameFilter, colunsFilter, operatorFilter, numberFilter]);
 
   return (
