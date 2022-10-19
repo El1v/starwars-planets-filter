@@ -22,6 +22,19 @@ function Filter() {
   const [optionsList, setOptionsList] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
+  // const [optionsButtons, setOptionsButtons] = useState([]);
+
+  // const addColunsButton = (column) => (
+  //   setOptionsButtons((prevState) => ([
+  //     ...prevState, column,
+  //   ]))
+  // );
+
+  // const removeColunsButton = (columnn) => (
+  //   // setOptionsList((prevState) => ([
+  //   //   ...prevState, columnn,
+  //   // ]))
+  // );
 
   const handleFilter = () => {
     let planetsFiltered;
@@ -35,8 +48,10 @@ function Filter() {
       planetsFiltered = planets
         .filter((element) => Number(element[colunsFilter]) === Number(numberFilter));
     }
-    setOptionsList(optionsList.filter((element) => element !== colunsFilter));
     setPlanets(planetsFiltered);
+    setOptionsList(optionsList.filter((element) => element !== colunsFilter));
+    setColunsFilter(optionsList[0]);
+    addColunsButton(colunsFilter);
   };
 
   return (
@@ -86,7 +101,18 @@ function Filter() {
       >
         Filtrar
       </button>
-
+      {/*
+      <div>
+        {optionsButtons
+          .map((element, index) => (
+            <button
+              type="button"
+              key={ index }
+              // onClick={ removeColunsButton(element) }
+            >
+              { element }
+            </button>))}
+      </div> */}
     </div>
   );
 }
