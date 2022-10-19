@@ -15,7 +15,7 @@ function Table() {
       setPlanets(data.results);
     };
     getPlanets();
-  }, []);
+  }, [setPlanets]);
 
   return (
     <div>
