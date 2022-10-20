@@ -7,13 +7,10 @@ function Filter() {
     setPlanets,
     nameFilter,
     handleFilterByName,
-    // colunsFilter,
-    // handleFilterByColuns,
-    // operatorFilter,
-    // handleFilterByOperator,
-    // numberFilter,
-    // handleFilterByNumber,
-    // handleFilter,
+    orderBy,
+    handleChangeOrder,
+    filter,
+    setFilter,
   } = useContext(PlanetsContext);
 
   const [colunsFilter, setColunsFilter] = useState('population');
@@ -22,6 +19,9 @@ function Filter() {
   const [optionsList, setOptionsList] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
+
+  const orderByList = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   // const [optionsButtons, setOptionsButtons] = useState([]);
 
   // const addColunsButton = (column) => (
@@ -51,7 +51,36 @@ function Filter() {
     setPlanets(planetsFiltered);
     setOptionsList(optionsList.filter((element) => element !== colunsFilter));
     setColunsFilter(optionsList[0]);
-    addColunsButton(colunsFilter);
+  };
+
+  const handleOrderBy = () => {
+    let planetsOrderBy;
+
+    const hasUnknown = planets
+      .filter((element) => element[orderBy.column] === 'unknown');
+
+    if (hasUnknown) {
+      const newList = planets
+        .filter((element) => element[orderBy.column] !== 'unknown');
+      hasUnknown.forEach((element) => newList.push(element));
+
+      if (orderBy.sort === 'ASC') {
+        planetsOrderBy = newList
+          .sort((a, b) => Number(a[orderBy.column]) - Number(b[orderBy.column]));
+      } else {
+        planetsOrderBy = newList
+          .sort((a, b) => Number(b[orderBy.column]) - Number(a[orderBy.column]));
+      }
+    } else if (orderBy.sort === 'ASC') {
+      planetsOrderBy = planets
+        .sort((a, b) => Number(a[orderBy.column]) - Number(b[orderBy.column]));
+    } else {
+      planetsOrderBy = planets
+        .sort((a, b) => Number(b[orderBy.column]) - Number(a[orderBy.column]));
+    }
+
+    setPlanets(planetsOrderBy);
+    setFilter(!filter);
   };
 
   return (
@@ -100,6 +129,42 @@ function Filter() {
         onClick={ handleFilter }
       >
         Filtrar
+      </button>
+
+      <select
+        value={ orderBy.column }
+        data-testid="column-sort"
+        onChange={ handleChangeOrder }
+      >
+        {orderByList.map((element, index) => (
+          <option name="column" key={ index } value={ element }>{element}</option>
+        ))}
+      </select>
+      <br />
+
+      <input
+        type="radio"
+        value="ASC"
+        name="sort"
+        data-testid="column-sort-input-asc"
+        onChange={ handleChangeOrder }
+      />
+      Ascendente
+      <input
+        type="radio"
+        value="DESC"
+        name="sort"
+        data-testid="column-sort-input-desc"
+        onChange={ handleChangeOrder }
+      />
+      Descendente
+
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ handleOrderBy }
+      >
+        Ordenar
       </button>
       {/*
       <div>

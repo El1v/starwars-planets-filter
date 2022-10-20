@@ -8,6 +8,19 @@ function PlanetsProvider({ children }) {
   const [colunsFilter, setColunsFilter] = useState('population');
   const [operatorFilter, setOperadorFilter] = useState('maior que');
   const [numberFilter, setNumberFilter] = useState(0);
+  const [orderBy, setOrderBy] = useState({
+    column: 'population', sort: 'ASC',
+  });
+  const [filter, setFilter] = useState(true);
+
+  const handleChangeOrder = (event) => {
+    const { name, value } = event.target;
+    if (name) {
+      setOrderBy((prevState) => ({ ...prevState, [name]: value }));
+    } else {
+      setOrderBy((prevState) => ({ ...prevState, column: value }));
+    }
+  };
 
   const handleFilterByName = ({ target }) => setNameFilter(target.value);
   const handleFilterByColuns = ({ target }) => setColunsFilter(target.value);
@@ -40,7 +53,11 @@ function PlanetsProvider({ children }) {
     handleFilterByColuns,
     handleFilterByOperator,
     handleFilterByNumber,
-  }), [planets, nameFilter, colunsFilter, operatorFilter, numberFilter]);
+    orderBy,
+    handleChangeOrder,
+    filter,
+    setFilter,
+  }), [planets, nameFilter, colunsFilter, operatorFilter, numberFilter, orderBy, filter]);
 
   return (
     <PlanetsContext.Provider value={ value }>
